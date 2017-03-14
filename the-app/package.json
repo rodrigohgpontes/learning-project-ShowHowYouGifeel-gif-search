@@ -1,0 +1,36 @@
+{
+  "name": "the-app",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-preset-react-native": "^1.9.1",
+    "babel-relay-plugin": "^0.11.0",
+    "graphql": "^0.4.4",
+    "jest-expo": "^0.2.1",
+    "react-native-scripts": "0.0.18",
+    "react-test-renderer": "~15.4.0",
+    "sync-request": "^4.0.1",
+    "then-request": "^2.2.0"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js --watch"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "expo": "14.0.2",
+    "giphy-api": "^1.2.5",
+    "graphql": "^0.4.4",
+    "graphqlhub-schemas": "^0.1.0",
+    "react": "~15.4.0",
+    "react-native": "0.41.2",
+    "react-relay": "^0.10.0"
+  }
+}
