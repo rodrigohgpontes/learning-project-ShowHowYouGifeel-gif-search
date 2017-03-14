@@ -8,14 +8,15 @@ import Relay, {
 
 Relay.injectNetworkLayer(new DefaultNetworkLayer('https://www.graphqlhub.com/graphql'))
 
+
 export default class App extends React.Component {
-  render() {
+
+	render() {
     return (
       <View style={styles.container}>
                 <Text style={styles.header}>
-                    Hallellujah
+                    Show how you Gifeel!
                 </Text>
-                <TextInput style={styles.input} placeholder="(sorry, no idea how to make search works... yet.)" onChangeText={(text) => this.setState({text})} />
 				<Relay.Renderer
                     environment={Relay.Store}
 					Container={ResultsComponent}
@@ -38,9 +39,10 @@ export class ResultsComponent extends React.Component {
         };
 
     }
-
+	
+	
 	componentWillMount(){
-				var store = this.props.store;
+		var store = this.props.store;
 		
 		const results = [];
 		store.search.map(gif => results.push(gif.images.fixed_width.url));
@@ -50,12 +52,31 @@ export class ResultsComponent extends React.Component {
 		});
 	}
 	
+	componentDidUpdate(event) {
+
+		if(this.props.relay.variables!=event.relay.variables) {
+			var store = this.props.store;
+			
+			const results = [];
+			store.search.map(gif => results.push(gif.images.fixed_width.url));
+			const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+			this.setState({
+				dataSource: ds.cloneWithRows(results),
+			});
+		}
+	}
+	
+	_handleChange(event) {
+	this.props.relay.forceFetch({ emotion: event.text });
+	}
+	
     render() {
 		
         return (
 
             <ListView
                 dataSource={this.state.dataSource}
+				renderHeader={() => <TextInput style={styles.input} placeholder="type your emotion..." onChangeText={(text) => {this.setState({text}); this._handleChange({text})}} />}
                 renderRow={(rowData) => <Image style={styles.images} source={{uri: rowData}} />}
             />
 
@@ -64,11 +85,14 @@ export class ResultsComponent extends React.Component {
 }
 
 ResultsComponent = Relay.createContainer(ResultsComponent, {
-
-  fragments: {
-    store: () => Relay.QL`fragment on GiphyAPI {search(query:"happy"){url,images{fixed_width{url}}}}`,
+	initialVariables: {emotion: "happy"},
+	fragments: {
+    store: () => Relay.QL`fragment on GiphyAPI {search(query:$emotion){url,images{fixed_width{url}}}}`,
   },
 });
+
+
+
 
 class GiphyRoute extends Relay.Route {
   static routeName = 'GiphyRoute';
