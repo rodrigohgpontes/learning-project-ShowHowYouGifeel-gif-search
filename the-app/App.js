@@ -76,7 +76,7 @@ export class ResultsComponent extends React.Component {
 
             <ListView
                 dataSource={this.state.dataSource}
-				renderHeader={() => <TextInput style={styles.input} placeholder="type your emotion..." onChangeText={(text) => {this.setState({text}); this._handleChange({text})}} />}
+				renderHeader={() => <TextInput style={styles.input} placeholder="type your emotion... Crowdbotics" onChangeText={(text) => {this.setState({text}); this._handleChange({text})}} />}
                 renderRow={(rowData) => <Image style={styles.images} source={{uri: rowData}} />}
             />
 
@@ -103,23 +103,23 @@ class GiphyRoute extends Relay.Route {
   };
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#DCF777',
     flexDirection: 'column',
+	
   },
   header: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    margin: 6,
     color: '#D9244F',
-
+	marginTop: 26,
   },
   input: {
-    fontSize: 16,
+    fontSize: 18,
     height: 50,
     textAlign: 'center',
   },
